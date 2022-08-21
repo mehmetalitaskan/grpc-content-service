@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: content-micro-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: content-micro-app
+  template:
+    metadata:
+      labels:
+        app: content-micro-app
+    spec:
+      containers:
+        - name: content-micro-app
+          image: mehmetalitaskan/spring-grpc:content-grpc-service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: content-micro-service
+spec:
+  selector:
+    app: content-micro-app
+  ports:
+    - port: 6565
+      protocol: TCP
+      targetPort: 6565
